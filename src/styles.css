@@ -4,37 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: 'DM Serif Display';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('https://fonts.gstatic.com/s/dmserifisplay/v15/rnCt-xN1oD-eyASHTrPmaercaNf2PcLToQ.woff2') format('woff2');
-}
 
-@font-face {
-  font-family: 'Fira Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('https://fonts.gstatic.com/s/firasans/v17/va9B4kDNxMZdWfMOD5VnPKreRhf6.woff2') format('woff2');
-}
 
-@font-face {
-  font-family: 'Fira Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('https://fonts.gstatic.com/s/firasans/v17/va9E4kDNxMZdWfMOD5VvmYhzRw.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Fira Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('https://fonts.gstatic.com/s/firasans/v17/va9B4kDNxMZdWfMOD5VnZKveRhf6.woff2') format('woff2');
-}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
