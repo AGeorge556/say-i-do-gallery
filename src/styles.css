@@ -4,9 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
-
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -53,51 +50,68 @@
   --color-sage-dark: var(--sage-dark);
   --color-cream: var(--cream);
   --color-cream-dark: var(--cream-dark);
+  --color-gold: var(--gold);
   --font-heading: 'DM Serif Display', serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-serif: 'Cormorant Infant', serif;
   --font-body: 'Fira Sans', sans-serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.97 0.005 100);
-  --foreground: oklch(0.25 0.02 60);
-  --card: oklch(0.98 0.005 90);
-  --card-foreground: oklch(0.25 0.02 60);
-  --popover: oklch(0.98 0.005 90);
-  --popover-foreground: oklch(0.25 0.02 60);
-  --primary: oklch(0.55 0.08 145);
-  --primary-foreground: oklch(0.98 0.005 90);
-  --secondary: oklch(0.90 0.02 130);
-  --secondary-foreground: oklch(0.30 0.04 60);
-  --muted: oklch(0.93 0.01 100);
-  --muted-foreground: oklch(0.50 0.02 60);
-  --accent: oklch(0.90 0.03 130);
-  --accent-foreground: oklch(0.30 0.04 60);
+  --radius: 0.75rem;
+
+  /* Warm ivory background */
+  --background: oklch(0.975 0.013 82);
+  --foreground: oklch(0.20 0.030 48);
+
+  --card: oklch(0.992 0.010 84);
+  --card-foreground: oklch(0.20 0.030 48);
+  --popover: oklch(0.992 0.010 84);
+  --popover-foreground: oklch(0.20 0.030 48);
+
+  /* Deeper sage green for WCAG AA contrast */
+  --primary: oklch(0.46 0.098 150);
+  --primary-foreground: oklch(0.99 0.005 90);
+
+  --secondary: oklch(0.91 0.025 132);
+  --secondary-foreground: oklch(0.24 0.040 52);
+
+  --muted: oklch(0.945 0.015 88);
+  --muted-foreground: oklch(0.50 0.022 52);
+
+  --accent: oklch(0.92 0.028 132);
+  --accent-foreground: oklch(0.24 0.040 52);
+
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0.005 90);
-  --border: oklch(0.88 0.02 110);
-  --input: oklch(0.88 0.02 110);
-  --ring: oklch(0.55 0.08 145);
-  --chart-1: oklch(0.55 0.08 145);
-  --chart-2: oklch(0.65 0.10 145);
-  --chart-3: oklch(0.45 0.06 145);
-  --chart-4: oklch(0.75 0.08 100);
-  --chart-5: oklch(0.60 0.05 60);
 
-  --sage: oklch(0.55 0.08 145);
-  --sage-light: oklch(0.90 0.03 130);
-  --sage-dark: oklch(0.42 0.06 145);
-  --cream: oklch(0.97 0.01 90);
-  --cream-dark: oklch(0.92 0.02 90);
+  --border: oklch(0.88 0.022 90);
+  --input: oklch(0.88 0.022 90);
+  --ring: oklch(0.46 0.098 150);
 
-  --sidebar: oklch(0.97 0.005 100);
-  --sidebar-foreground: oklch(0.25 0.02 60);
-  --sidebar-primary: oklch(0.55 0.08 145);
-  --sidebar-primary-foreground: oklch(0.98 0.005 90);
-  --sidebar-accent: oklch(0.90 0.03 130);
-  --sidebar-accent-foreground: oklch(0.30 0.04 60);
-  --sidebar-border: oklch(0.88 0.02 110);
-  --sidebar-ring: oklch(0.55 0.08 145);
+  --chart-1: oklch(0.46 0.098 150);
+  --chart-2: oklch(0.60 0.10 148);
+  --chart-3: oklch(0.38 0.07 148);
+  --chart-4: oklch(0.72 0.09 82);
+  --chart-5: oklch(0.58 0.06 50);
+
+  --sage: oklch(0.46 0.098 150);
+  --sage-light: oklch(0.91 0.025 132);
+  --sage-dark: oklch(0.35 0.072 148);
+  --cream: oklch(0.975 0.013 82);
+  --cream-dark: oklch(0.935 0.022 82);
+
+  /* Champagne gold for luxury accents */
+  --gold: oklch(0.70 0.092 82);
+
+  --sidebar: oklch(0.975 0.013 82);
+  --sidebar-foreground: oklch(0.20 0.030 48);
+  --sidebar-primary: oklch(0.46 0.098 150);
+  --sidebar-primary-foreground: oklch(0.99 0.005 90);
+  --sidebar-accent: oklch(0.92 0.028 132);
+  --sidebar-accent-foreground: oklch(0.24 0.040 52);
+  --sidebar-border: oklch(0.88 0.022 90);
+  --sidebar-ring: oklch(0.46 0.098 150);
 }
 
 @layer base {
@@ -105,13 +119,20 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
   }
 }
