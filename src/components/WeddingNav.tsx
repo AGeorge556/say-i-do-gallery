@@ -1,20 +1,40 @@
-import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { to: "/" as const, label: "Home" },
-  { to: "/gallery" as const, label: "Gallery" },
-  { to: "/guestbook" as const, label: "Guestbook" },
+  { id: "hero", label: "Home" },
+  { id: "gallery", label: "Gallery" },
+  { id: "guestbook", label: "Guestbook" },
 ] as const;
 
+function scrollTo(id: string) {
+  if (id === "hero") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
 export function WeddingNav() {
-  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+
+      const sectionIds = ["rsvp", "guestbook", "gallery"];
+      let current = "hero";
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top < window.innerHeight / 2) {
+          current = id;
+        }
+      }
+      setActiveSection(current);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -26,24 +46,23 @@ export function WeddingNav() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Script monogram logo */}
-        <Link
-          to="/"
-          className="font-script text-3xl leading-none text-foreground hover:text-primary transition-colors duration-200"
+        <button
+          onClick={() => scrollTo("hero")}
+          className="font-script text-3xl leading-none text-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
           style={{ paddingTop: "4px" }}
         >
-          N &amp; A
-        </Link>
+          A &amp; N
+        </button>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
-            const active = location.pathname === link.to;
+            const active = activeSection === link.id;
             return (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`relative text-xs tracking-[0.22em] uppercase transition-colors duration-200 pb-0.5 ${
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className={`relative text-xs tracking-[0.22em] uppercase transition-colors duration-200 pb-0.5 cursor-pointer ${
                   active
                     ? "text-primary font-medium"
                     : "text-muted-foreground hover:text-foreground"
@@ -56,19 +75,19 @@ export function WeddingNav() {
                     className="absolute -bottom-0.5 left-0 right-0 h-px bg-primary"
                   />
                 )}
-              </Link>
+              </button>
             );
           })}
-          <Link
-            to="/rsvp"
-            className={`text-xs tracking-[0.22em] uppercase px-5 py-2.5 rounded-full border transition-all duration-200 ${
-              location.pathname === "/rsvp"
+          <button
+            onClick={() => scrollTo("rsvp")}
+            className={`text-xs tracking-[0.22em] uppercase px-5 py-2.5 rounded-full border transition-all duration-200 cursor-pointer ${
+              activeSection === "rsvp"
                 ? "bg-primary text-primary-foreground border-primary shadow-sm"
                 : "border-primary text-primary hover:bg-primary hover:text-primary-foreground hover:shadow-sm"
             }`}
           >
             RSVP
-          </Link>
+          </button>
         </div>
 
         {/* Mobile toggle */}
@@ -99,27 +118,25 @@ export function WeddingNav() {
           >
             <div className="px-6 py-5 flex flex-col gap-5">
               {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMobileOpen(false)}
-                  className={`text-xs tracking-[0.22em] uppercase ${
-                    location.pathname === link.to
+                <button
+                  key={link.id}
+                  onClick={() => { scrollTo(link.id); setMobileOpen(false); }}
+                  className={`text-xs tracking-[0.22em] uppercase text-left cursor-pointer ${
+                    activeSection === link.id
                       ? "text-primary font-medium"
                       : "text-muted-foreground"
                   }`}
                 >
                   {link.label}
-                </Link>
+                </button>
               ))}
               <div className="border-t border-border pt-4">
-                <Link
-                  to="/rsvp"
-                  onClick={() => setMobileOpen(false)}
-                  className="inline-block text-xs tracking-[0.22em] uppercase px-6 py-3 rounded-full bg-primary text-primary-foreground"
+                <button
+                  onClick={() => { scrollTo("rsvp"); setMobileOpen(false); }}
+                  className="inline-block text-xs tracking-[0.22em] uppercase px-6 py-3 rounded-full bg-primary text-primary-foreground cursor-pointer"
                 >
                   RSVP
-                </Link>
+                </button>
               </div>
             </div>
           </motion.div>

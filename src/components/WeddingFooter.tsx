@@ -12,7 +12,7 @@ export function WeddingFooter() {
 
       {/* Script names */}
       <p className="font-script text-5xl text-foreground leading-tight" style={{ paddingTop: "4px" }}>
-        Nancy &amp; Ayman
+        Ayman &amp; Nancy
       </p>
 
       <p className="mt-3 text-xs tracking-[0.28em] uppercase text-muted-foreground">

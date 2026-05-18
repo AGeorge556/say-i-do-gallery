@@ -25,7 +25,6 @@ function RSVPPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [guestCount, setGuestCount] = useState(1);
-  const [dietary, setDietary] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; attending?: string }>({});
@@ -48,7 +47,6 @@ function RSVPPage() {
       email: email.trim() || null,
       attending: attending as string,
       guest_count: attending === "yes" ? guestCount : null,
-      dietary: attending === "yes" && dietary.trim() ? dietary.trim() : null,
     });
 
     if (insertError) {
@@ -253,9 +251,6 @@ function RSVPPage() {
               placeholder="your@email.com"
               className="w-full rounded-xl border border-input bg-card px-4 py-3.5 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-base font-body"
             />
-            <p className="mt-1.5 text-xs text-muted-foreground font-body">
-              We'll send event details to this address
-            </p>
           </div>
 
           {/* Conditional attending fields */}
@@ -305,23 +300,6 @@ function RSVPPage() {
                         {guestCount === 1 ? "person" : "people"}
                       </span>
                     </div>
-                  </div>
-
-                  {/* Dietary */}
-                  <div className="mb-5">
-                    <label className="block text-xs font-medium text-foreground mb-2 tracking-wide uppercase font-body" htmlFor="rsvp-dietary">
-                      Dietary Requirements{" "}
-                      <span className="text-muted-foreground font-normal normal-case tracking-normal">(optional)</span>
-                    </label>
-                    <textarea
-                      id="rsvp-dietary"
-                      value={dietary}
-                      onChange={(e) => setDietary(e.target.value)}
-                      placeholder="Vegetarian, gluten-free, allergies, etc."
-                      rows={3}
-                      className="w-full rounded-xl border border-input bg-card px-4 py-3.5 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring resize-none transition-colors text-base font-body"
-                      maxLength={400}
-                    />
                   </div>
                 </div>
               </motion.div>

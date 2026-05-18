@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RsvpRouteImport } from './routes/rsvp'
 import { Route as GuestbookRouteImport } from './routes/guestbook'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RsvpRoute = RsvpRouteImport.update({
@@ -29,6 +30,11 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/gallery': typeof GalleryRoute
   '/guestbook': typeof GuestbookRoute
   '/rsvp': typeof RsvpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/gallery': typeof GalleryRoute
   '/guestbook': typeof GuestbookRoute
   '/rsvp': typeof RsvpRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/gallery': typeof GalleryRoute
   '/guestbook': typeof GuestbookRoute
   '/rsvp': typeof RsvpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gallery' | '/guestbook' | '/rsvp'
+  fullPaths: '/' | '/admin' | '/gallery' | '/guestbook' | '/rsvp'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gallery' | '/guestbook' | '/rsvp'
-  id: '__root__' | '/' | '/gallery' | '/guestbook' | '/rsvp'
+  to: '/' | '/admin' | '/gallery' | '/guestbook' | '/rsvp'
+  id: '__root__' | '/' | '/admin' | '/gallery' | '/guestbook' | '/rsvp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   GalleryRoute: typeof GalleryRoute
   GuestbookRoute: typeof GuestbookRoute
   RsvpRoute: typeof RsvpRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   GalleryRoute: GalleryRoute,
   GuestbookRoute: GuestbookRoute,
   RsvpRoute: RsvpRoute,
