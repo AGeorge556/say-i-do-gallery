@@ -47,6 +47,7 @@ function AdminPage() {
 
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [confirmType, setConfirmType] = useState<"guestbook" | "gallery" | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const login = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,18 +121,27 @@ function AdminPage() {
     const id = confirmId;
     const type = confirmType;
     cancelConfirm();
+    setDeleteError(null);
 
     if (type === "guestbook") {
       setGbDeleting(id);
-      await supabase.from("guestbook_messages").delete().eq("id", id);
-      setMessages((prev) => prev.filter((m) => m.id !== id));
+      const { error } = await supabase.from("guestbook_messages").delete().eq("id", id);
+      if (error) {
+        setDeleteError("Delete failed — check Supabase RLS policies.");
+      } else {
+        setMessages((prev) => prev.filter((m) => m.id !== id));
+      }
       setGbDeleting(null);
     } else {
       const item = items.find((i) => i.id === id);
       if (!item) return;
       setGalleryDeleting(id);
-      await supabase.storage.from(BUCKET).remove([item.name]);
-      setItems((prev) => prev.filter((i) => i.id !== id));
+      const { error } = await supabase.storage.from(BUCKET).remove([item.name]);
+      if (error) {
+        setDeleteError("Delete failed — check Supabase storage policies.");
+      } else {
+        setItems((prev) => prev.filter((i) => i.id !== id));
+      }
       setGalleryDeleting(null);
     }
   };
@@ -230,6 +240,12 @@ function AdminPage() {
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-10">
+        {deleteError && (
+          <div className="mb-6 px-5 py-3.5 rounded-xl bg-destructive/10 border border-destructive/20 text-sm text-destructive font-body flex items-center justify-between gap-4">
+            {deleteError}
+            <button onClick={() => setDeleteError(null)} className="text-destructive/60 hover:text-destructive cursor-pointer">✕</button>
+          </div>
+        )}
         {/* Tabs */}
         <div className="flex gap-1 mb-10 bg-muted/50 rounded-xl p-1 w-fit">
           {(["guestbook", "gallery"] as const).map((t) => (
